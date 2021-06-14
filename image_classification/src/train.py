@@ -1,51 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-import tensorflow as tf
-print(tf.__version__)
-
-from tensorflow.keras.preprocessing import image_dataset_from_directory
-
-DATA_DIR = 'cats_and_dogs_filtered'
-
-train_dir = f'{DATA_DIR}/train'
-validation_dir = f'{DATA_DIR}/validation'
-test_dir = f'{DATA_DIR}/test'
-
-BATCH_SIZE = 32
-IMG_SIZE = (160, 160)
-
-
-train_dataset = image_dataset_from_directory(
-    train_dir,
-    shuffle=True,
-    batch_size=BATCH_SIZE,
-    image_size=IMG_SIZE
-)
-
-validation_dataset = image_dataset_from_directory(
-    validation_dir,
-    shuffle=True,
-    batch_size=BATCH_SIZE,
-    image_size=IMG_SIZE
-)
-
-test_dataset = image_dataset_from_directory(
-    test_dir,
-    shuffle=False,
-    batch_size=BATCH_SIZE,
-    image_size=IMG_SIZE
-)
-
-class_names = train_dataset.class_names
-
-AUTOTUNE = tf.data.experimental.AUTOTUNE
-
-train_dataset = train_dataset.prefetch(buffer_size=AUTOTUNE)
-validation_dataset = validation_dataset.prefetch(buffer_size=AUTOTUNE)
-test_dataset = test_dataset.prefetch(buffer_size=AUTOTUNE)
-
-
 data_augmentation = tf.keras.Sequential([
   tf.keras.layers.experimental.preprocessing.RandomFlip('horizontal'),
   tf.keras.layers.experimental.preprocessing.RandomRotation(0.2),
